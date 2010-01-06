@@ -43,16 +43,14 @@ foreach my $feature(qw(
     my $memoized = sub :method {
         my $self = shift;
         if(wantarray){
-            return @{
-                $cache{$fl, @_} //= [$self->$orig(@_)]
-            };
+            return @{ $cache{$fl, @_} //= [$self->$orig(@_)] };
         }
         else {
-            return $cache{$fs, @_} //= $self->$orig(@_);
+            return    $cache{$fs, @_} //=  $self->$orig(@_);
         }
     };
     no strict 'refs';
-    *{__PACKAGE__ . '::' . $feature} = $memoized;
+    *{$feature} = $memoized;
 }
 
 sub flush_cache {
