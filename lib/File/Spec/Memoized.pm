@@ -3,7 +3,7 @@ package File::Spec::Memoized;
 use 5.010_000; # for dor operator (//)
 use strict;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 use File::Spec;
 
@@ -69,7 +69,7 @@ File::Spec::Memoized - Memoization of File::Spec to make it faster
 
 =head1 VERSION
 
-This document describes File::Spec::Memoized version 0.001.
+This document describes File::Spec::Memoized version 0.002.
 
 =head1 SYNOPSIS
 
