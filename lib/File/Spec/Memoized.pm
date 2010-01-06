@@ -67,7 +67,7 @@ __END__
 
 =head1 NAME
 
-File::Spec::Memoized - Makes File::Spec faster
+File::Spec::Memoized - Memoization of File::Spec to make it faster
 
 =head1 VERSION
 
@@ -88,55 +88,18 @@ File::Spec::Memoized makes File::Spec faster using memoization
 (data caching). Once you load this module, File::Spec features
 will become significantly faster.
 
+This module adopts File::Spec, so you need any changes in your program. All
+you have to do is say C<use File::Spec::Memoized>.
+
 =head1 INTERFACE
-
-=head2 File::Spec features
-
-=over 4
-
-=item canonpath
-
-=item catdir
-
-=item catfile
-
-=item curdir
-
-=item rootdir
-
-=item updir
-
-=item no_upwards
-
-=item file_name_is_absolute
-
-=item path
-
-=item devnull
-
-=item tmpdir
-
-=item splitpath
-
-=item splitdir
-
-=item catpath
-
-=item abs2rel
-
-=item rel2abs
-
-=item case_tolerant
-
-=back
 
 =head2 Cache control methods
 
 =over 4
 
-=item flush_cache
+=item C<< File::Spec::Memoized->flush_cache() >>
 
-Clears the cache and frees the memory used by the cache.
+Clears the cache and frees the memory used for the cache.
 
 =back
 
