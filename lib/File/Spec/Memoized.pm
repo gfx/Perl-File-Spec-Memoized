@@ -1,6 +1,6 @@
 package File::Spec::Memoized;
 
-use 5.010_000; # for dor operator (//)
+use 5.006_002;
 use strict;
 
 our $VERSION = '0.002';
@@ -15,39 +15,50 @@ our @ISA = @File::Spec::ISA;
 
 # constants:
 #   curdir, updir, rootdir, devnull
-
+#
 # already memoized:
 #   tmpdir
+#
+# no memoized (no performance drain):
+#   file_name_is_absolute, case_tolerant
 
 my %cache;
 
+# features return a scalar
 foreach my $feature(qw(
     canonpath
     catdir
     catfile
-    no_upwards
-    file_name_is_absolute
-    path
-    splitpath
-    splitdir
     catpath
     abs2rel
     rel2abs
-    case_tolerant
 )) {
     my $orig = "SUPER::$feature";
 
-    my $fl   = '@' . $feature;
     my $fs   = '$' . $feature;
 
     my $memoized = sub :method {
         my $self = shift;
-        if(wantarray){
-            return @{ $cache{$fl, @_} //= [$self->$orig(@_)] };
-        }
-        else {
-            return    $cache{$fs, @_} //=  $self->$orig(@_);
-        }
+        return $cache{$fs, @_} ||=  $self->$orig(@_);
+    };
+    no strict 'refs';
+    *{$feature} = $memoized;
+}
+
+# features return a list
+foreach my $feature(qw(
+    no_upwards
+    path
+    splitpath
+    splitdir
+)) {
+    my $orig = "SUPER::$feature";
+
+    my $fl   = '@' . $feature;
+
+    my $memoized = sub :method {
+        my $self = shift;
+        return @{ $cache{$fl, @_} ||= [$self->$orig(@_)] };
     };
     no strict 'refs';
     *{$feature} = $memoized;
@@ -82,7 +93,7 @@ This document describes File::Spec::Memoized version 0.002.
 
 =head1 DESCRIPTION
 
-File::Spec::Memoized makes File::Spec faster using memoization
+File::Spec::Memoized makes File::Spec faster using B<memoization>
 (data caching). Once you load this module, File::Spec features
 will become significantly faster.
 
