@@ -7,12 +7,6 @@ our $VERSION = '0.003';
 
 use File::Spec;
 
-# Class hierarchy:
-# File::Spec -> File::Spec::Memoized -> File::Spec::$OS
-#               ^^^^^^^^^^^^^^^^^^^^
-our @ISA = @File::Spec::ISA;
-@File::Spec::ISA = (__PACKAGE__);
-
 # constants:
 #   curdir, updir, rootdir, devnull
 #
@@ -33,7 +27,7 @@ foreach my $feature(qw(
     abs2rel
     rel2abs
 )) {
-    my $orig = "SUPER::$feature";
+    my $orig = File::Spec->can($feature) or die "Oops: $feature";
 
     my $fs   = '$' . $feature;
 
@@ -52,7 +46,7 @@ foreach my $feature(qw(
     splitpath
     splitdir
 )) {
-    my $orig = "SUPER::$feature";
+    my $orig = File::Spec->can($feature) or die "Oops: $feature";
 
     my $fl   = '@' . $feature;
 
@@ -70,6 +64,12 @@ sub flush_cache {
 }
 
 sub __cache { \%cache }
+
+# Organize the class hierarchy:
+# File::Spec -> File::Spec::Memoized -> File::Spec::$OS
+#               ^^^^^^^^^^^^^^^^^^^^
+our @ISA = @File::Spec::ISA;
+@File::Spec::ISA = (__PACKAGE__);
 
 1;
 __END__
