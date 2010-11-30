@@ -3,7 +3,7 @@ package File::Spec::Memoized;
 use 5.006_002;
 use strict;
 
-our $VERSION = '0.003';
+our $VERSION = '1.00';
 
 use File::Spec;
 
@@ -80,7 +80,7 @@ File::Spec::Memoized - Memoization of File::Spec to make it faster
 
 =head1 VERSION
 
-This document describes File::Spec::Memoized version 0.003.
+This document describes File::Spec::Memoized version 1.00.
 
 =head1 SYNOPSIS
 
