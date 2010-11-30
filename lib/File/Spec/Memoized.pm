@@ -93,12 +93,16 @@ This document describes File::Spec::Memoized version 0.003.
 
 =head1 DESCRIPTION
 
-File::Spec::Memoized makes File::Spec faster using B<memoization>
-(data caching). Once you load this module, File::Spec features
-will become significantly faster.
+File::Spec is used everywhere, but its performance is not so good
+because a lot of internal calls of C<canonpath()> consumes CPU.
 
-This module adopts File::Spec, so you need any changes in your program. All
-you have to do is say C<use File::Spec::Memoized>.
+File::Spec::Memoized applies File::Spec with B<memoization> technique
+(or data caching). Once you load this module, File::Spec methods
+will become significantly faster. Moreover, some modules that depend
+on File::Spec, e.g. C<Path::Class>, could become faster.
+
+This module adopts File::Spec methods, so you need no changes in your
+program. All you have to do is say C<use File::Spec::Memoized>.
 
 =head1 INTERFACE
 
@@ -114,7 +118,7 @@ Clears the cache and frees the memory used for the cache.
 
 =head1 DEPENDENCIES
 
-Perl 5.10.0 or later.
+Perl 5.6.2 or later.
 
 =head1 BUGS
 
